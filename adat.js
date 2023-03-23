@@ -13,13 +13,36 @@ export const SZOVEG_LISTA = [
     "amogus"
 ];
 
+export const KULCS_NEVEK = {
+    nev: "Név",
+    kor: "Kor",
+    fajta: "Fajta"
+};
+
 export const OBJEKTUM_LISTA = [
     {
         nev: "asd",
-        ertek: "fgh"
+        kor: 12,
+        fajta: "asd"
+    },
+    {
+        nev: "fgh",
+        kor: 5,
+        fajta: "asd"
     },
     {
         nev: "qwe",
-        ertek: "rtz"
-    }
+        kor: 7,
+        fajta: "asd"
+    },
+    {
+        nev: "rtz",
+        kor: 3,
+        fajta: "asd"
+    },
+    {
+        nev: "yxc",
+        kor: 2,
+        fajta: "asd"
+    },
 ];
