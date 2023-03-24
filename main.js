@@ -1,9 +1,13 @@
-import { SZAM_LISTA, SZOVEG_LISTA, KULCS_NEVEK, OBJEKTUM_LISTA } from "./adat.js";
+import { KULCS_NEVEK, OBJEKTUM_LISTA } from "./adat.js";
+import { objektumosRendezes } from "./rendezes.js";
+import { szuresSzovegesErtekSzerint, szuresSzamErtekSzerint } from "./szures.js";
 
 let kutyakTabla;
 
 let rendezesiSzempont;
-let csokkenoSorrend = false;
+let novekvoSorrend = true;
+
+let valtoztathatoObjektumLista = OBJEKTUM_LISTA;
 
 const KULCSOK_LISTA = (()=> 
 {
@@ -17,18 +21,6 @@ const KULCSOK_LISTA = (()=>
 
 $(() =>
 {
-    /*const KEVERT_INDEXEK = keveres1(SZAM_LISTA);
-    KEVERT_INDEXEK.forEach(index =>
-    {
-        console.log(SZAM_LISTA[index]);
-    });
-    console.log(SZOVEG_LISTA);
-    rendezes1(SZOVEG_LISTA);
-    console.log(SZOVEG_LISTA);
-    SZAM_LISTA.sort();
-    console.log(SZAM_LISTA);
-    rendezes2(SZAM_LISTA);
-    console.log(SZAM_LISTA);*/
     kutyakTabla = $("#kutyak");
     kutyakTabla.append(ujTagekKozeIr("tr", null, (() =>
     {
@@ -37,9 +29,10 @@ $(() =>
         {
             txt += ujTagekKozeIr("th", null, KULCS_NEVEK[kulcs]);
         });
+        txt += ujTagekKozeIr("th", null, "Törlés");
         return txt;
     })()));
-    kutyasTablazatotKiir();
+    kutyasTablazatotKiir(kutyakTabla, valtoztathatoObjektumLista);
     const KUTYAK_TABLA_HEADEK = $("#kutyak > tr:first > th").toArray();
     KUTYAK_TABLA_HEADEK.forEach((tablaHead, index) =>
     {
@@ -48,91 +41,53 @@ $(() =>
             if (rendezesiSzempont !== KULCSOK_LISTA[index])
             {
                 rendezesiSzempont = KULCSOK_LISTA[index];
-                csokkenoSorrend = false;
-                objektumosRendezes(OBJEKTUM_LISTA, KULCSOK_LISTA[index], csokkenoSorrend);
+                novekvoSorrend = true;
+                objektumosRendezes(valtoztathatoObjektumLista, KULCSOK_LISTA[index], novekvoSorrend);
             }
             else
             {
-                csokkenoSorrend = !csokkenoSorrend;
-                objektumosRendezes(OBJEKTUM_LISTA, KULCSOK_LISTA[index], csokkenoSorrend);
+                novekvoSorrend = !novekvoSorrend;
+                objektumosRendezes(valtoztathatoObjektumLista, KULCSOK_LISTA[index], novekvoSorrend);
             }
-            kutyasTablazatotKiir();
+            kutyasTablazatotKiir(kutyakTabla, valtoztathatoObjektumLista);
         });
+    });
+    const NEV_INPUT_ELEM = $("#nev");
+    const KOR_INPUT_ELEM = $("#kor");
+    const FAJTA_INPUT_ELEM = $("#fajta");
+    $(NEV_INPUT_ELEM).on("keyup", () =>
+    {
+        valtoztathatoObjektumLista = szuresSzovegesErtekSzerint(OBJEKTUM_LISTA, "nev", NEV_INPUT_ELEM.val());
+        kutyasTablazatotKiir(kutyakTabla, valtoztathatoObjektumLista);
+    });
+    $(KOR_INPUT_ELEM).on("change", () =>
+    {
+        valtoztathatoObjektumLista = szuresSzamErtekSzerint(OBJEKTUM_LISTA, objektum => eval(objektum.kor + KOR_INPUT_ELEM.val()));
+        kutyasTablazatotKiir(kutyakTabla, valtoztathatoObjektumLista);
+    });
+    $(FAJTA_INPUT_ELEM).on("keyup", () =>
+    {
+        valtoztathatoObjektumLista = szuresSzovegesErtekSzerint(OBJEKTUM_LISTA, "fajta", FAJTA_INPUT_ELEM.val());
+        kutyasTablazatotKiir(kutyakTabla, valtoztathatoObjektumLista);
     });
 });
 
-function kutyasTablazatotKiir()
+function kutyasTablazatotKiir(szuloElem, lista)
 {
-    $(kutyakTabla).children().slice(1).remove();
-    OBJEKTUM_LISTA.forEach(objektum =>
+    $(szuloElem).children().slice(1).remove();
+    lista.forEach(objektum =>
     {
-        kutyakTabla.append(ujTagekKozeIr("tr", null, (() =>
+        szuloElem.append(ujTagekKozeIr("tr", null, (() =>
         {
             let txt = "";
             for (const KULCS in objektum)
             {
                 txt += ujTagekKozeIr("td", null, objektum[KULCS]);
             }
+            txt += ujTagekKozeIr("td", null, "&times;");
             return txt;
         })()));
     });
-}
-
-function keveres1(lista)
-{
-    let megkevertIndexek = [];
-    while (megkevertIndexek.length < lista.length)
-    {
-        const szamok = Math.floor(Math.random() * lista.length);
-        let i = 0;
-        while (i < megkevertIndexek.length && szamok != megkevertIndexek[i])
-        {
-            i++;
-        }
-        if (i >= megkevertIndexek.length)
-        {
-            megkevertIndexek.push(szamok);
-        }
-    }
-    return megkevertIndexek;
-}
-
-function keveres2(lista)
-{
-    for (let i = lista.length - 1; i >= 0; i--)
-    {
-        const RANDOM = Math.floor(Math.random() * i);
-        const IDEIGLENES = lista[i];
-        lista[i] = lista[RANDOM];
-        lista[RANDOM] = IDEIGLENES;
-    }
-    //return lista;
-}
-
-function rendezes1(lista)
-{
-    lista.sort(); //csak szövegre jó
-}
-
-function rendezes2(lista)
-{
-    lista.sort((a, b) => a - b);
-}
-
-function objektumosRendezes(lista, attributum, csokkenoSorrend)
-{
-    switch (typeof(lista[0][attributum]))
-    {
-        case "string":
-            lista.sort(!csokkenoSorrend ? (a, b) => a[attributum].localeCompare(b[attributum]) : (a, b) => b[attributum].localeCompare(a[attributum]));
-            break;
-        case "number":
-            lista.sort(!csokkenoSorrend ? (a, b) => a[attributum] - b[attributum] : (a, b) => b[attributum] - a[attributum]);
-            break;
-        default:
-            console.log("A listát nem lehetett szortírozni mert nincs a kiválasztott attribútum adattípusára megfelelő szortírozási módszer!");
-            break;
-    }
 }
 
 function ujTagekKozeIr(tag, parameterek = null, tartalom = "")

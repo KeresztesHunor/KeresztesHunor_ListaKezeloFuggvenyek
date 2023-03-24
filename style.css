@@ -1,8 +1,3 @@
 * {
   box-sizing: border-box;
 }
-
-#kutyak th,
-#kutyak td {
-  border: 1px solid black;
-}

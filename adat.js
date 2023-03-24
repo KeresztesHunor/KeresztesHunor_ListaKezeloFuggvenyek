@@ -1,48 +1,33 @@
-export const SZAM_LISTA = [
-    -8,
-    69,
-    420,
-    1337
-];
-
-export const SZOVEG_LISTA = [
-    "sus",
-    "sussy",
-    "sussy baki",
-    "sus",
-    "amogus"
-];
-
 export const KULCS_NEVEK = {
     nev: "Név",
-    kor: "Kor",
-    fajta: "Fajta"
+    fajta: "Fajta",
+    kor: "Kor"
 };
 
 export const OBJEKTUM_LISTA = [
     {
-        nev: "asd",
-        kor: 12,
-        fajta: "asd"
+        nev: "Dézi",
+        fajta: "keverék",
+        kor: 2
     },
     {
-        nev: "fgh",
-        kor: 5,
-        fajta: "asd"
+        nev: "Bodri",
+        fajta: "mudi",
+        kor: 12
     },
     {
-        nev: "qwe",
-        kor: 7,
-        fajta: "asd"
+        nev: "Loki",
+        fajta: "tacskó",
+        kor: 5
     },
     {
-        nev: "rtz",
-        kor: 3,
-        fajta: "asd"
+        nev: "Zuri",
+        fajta: "foxterrier",
+        kor: 4
     },
     {
-        nev: "yxc",
-        kor: 2,
-        fajta: "asd"
-    },
+        nev: "Happy",
+        fajta: "németjuhász",
+        kor: 42
+    }
 ];
