@@ -22,6 +22,8 @@ const KULCSOK_LISTA = (() =>
 
 $(() =>
 {
+    const UJ_KUTYA_FELVITELE_LENYITO = $("#ujKutyaFelviteleLenyito");
+
     //Kutyás táblázat vátának inicializálása
 
     kutyakTabla = $("#kutyak");
