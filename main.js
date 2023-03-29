@@ -8,6 +8,8 @@ let kutyakTablaBody;
 let rendezesiSzempont;
 let novekvoSorrend = true;
 
+let felvivoFormLenyitva = false;
+
 let valtoztathatoObjektumLista = OBJEKTUM_LISTA;
 
 const KULCSOK_LISTA = (() => 
@@ -22,7 +24,17 @@ const KULCSOK_LISTA = (() =>
 
 $(() =>
 {
-    const UJ_KUTYA_FELVITELE_LENYITO = $("#ujKutyaFelviteleLenyito");
+    const UJ_KUTYA_FELVITELE_LENYITO = $("#ujKutyaFelviteleLenyito")[0];
+    const UJ_KUTYA_FELVITELE_FORM = $("#ujKutyaFelvitele")[0];
+    UJ_KUTYA_FELVITELE_LENYITO.innerHTML = "&#9660;";
+    UJ_KUTYA_FELVITELE_FORM.style.display = "none";
+    $(UJ_KUTYA_FELVITELE_LENYITO).on("click", event =>
+    {
+        event.preventDefault();
+        felvivoFormLenyitva = !felvivoFormLenyitva;
+        UJ_KUTYA_FELVITELE_LENYITO.innerHTML = felvivoFormLenyitva ? "&#9650;" : "&#9660;";
+        UJ_KUTYA_FELVITELE_FORM.style.display = felvivoFormLenyitva ? "block" : "none";
+    });
 
     //Kutyás táblázat vátának inicializálása
 
