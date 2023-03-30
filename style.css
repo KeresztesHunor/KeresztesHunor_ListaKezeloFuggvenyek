@@ -1,3 +1,24 @@
 * {
   box-sizing: border-box;
 }
+
+#adatBevitel {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+#adatBevitel > div {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  #adatBevitel {
+    grid-template-columns: 1fr;
+  }
+
+  #adatBevitel > div {
+    text-align: left;
+  }
+}

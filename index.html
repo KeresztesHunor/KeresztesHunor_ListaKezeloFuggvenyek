@@ -22,14 +22,35 @@
       <nav></nav>
       <article>
         <div>
+          <h3>Keresés</h3>
+          <div id="adatBevitel">
+            <div>
+              <label for="nev">Név:</label>
+              <input id="nev" type="text" placeholder="név" name="nev" />
+            </div>
+            <div>
+              <label for="fajta">Fajta:</label>
+              <input id="fajta" type="text" placeholder="fajta" name="fajta" />
+            </div>
+            <div>
+              <label for="kor">Kor:</label>
+              <input
+                id="kor"
+                type="text"
+                placeholder="pl.: < 12, === 12, >= 12"
+                name="kor"
+              />
+            </div>
+          </div>
+        </div>
+        <div>
           <div class="bg-dark d-flex p-2 justify-content-between">
             <h5 class="mb-0 text-light">Új kutya felvitele</h5>
             <a
               href="#"
               id="ujKutyaFelviteleLenyito"
               class="text-light text-decoration-none"
-              ></a
-            >
+            ></a>
           </div>
           <form id="ujKutyaFelvitele" onsubmit="">
             <div class="form-group">
@@ -64,16 +85,6 @@
             </div>
             <button type="submit" class="btn btn-primary">Felvitel</button>
           </form>
-        </div>
-        <div id="adatBevitel">
-          <input id="nev" type="text" placeholder="név" name="nev" />
-          <input id="fajta" type="text" placeholder="fajta" name="fajta" />
-          <input
-            id="kor"
-            type="text"
-            placeholder="pl.: < 12, === 12, >= 12"
-            name="kor"
-          />
         </div>
         <table id="kutyak" class="table"></table>
       </article>
