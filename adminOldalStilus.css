@@ -1,6 +1,4 @@
-* {
-  box-sizing: border-box;
-}
+@import url("altalanosStilus.css");
 
 #adatBevitel {
   display: grid;

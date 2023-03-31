@@ -28,6 +28,6 @@ export const OBJEKTUM_LISTA = [
     {
         nev: "Happy",
         fajta: "németjuhász",
-        kor: 42
+        kor: 4
     }
 ];

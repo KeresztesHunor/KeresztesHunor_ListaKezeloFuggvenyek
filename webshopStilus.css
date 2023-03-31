@@ -1,0 +1,13 @@
+@import url("altalanosStilus.css");
+
+#webshopKutyak > div {
+  width: 256px;
+}
+
+#webshopKutyak > div > img {
+  width: 100%;
+}
+
+#webshopKutyak > div .card-footer > button {
+  flex-basis: 45%;
+}

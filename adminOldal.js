@@ -1,6 +1,7 @@
 import { KULCS_NEVEK, OBJEKTUM_LISTA } from "./adat.js";
 import { objektumosRendezes } from "./rendezes.js";
 import { szuresSzovegesErtekSzerint, szuresSzamErtekSzerint } from "./szures.js";
+import { ujTagekKozeIr, kepetIr } from "./qualityOfLifeMetodusok.js";
 
 let kutyakTabla;
 let kutyakTablaBody;
@@ -56,15 +57,16 @@ $(() =>
     //Új kutya felvitelének lehetőségének inicializálása
 
     kutyakTablaBody = $("#kutyak > tbody");
-    const NEV = $("#nev");
-    const FAJTA = $("#fajta");
-    const KOR = $("#kor");
-    $(UJ_KUTYA_FELVITELE_FORM).on("submit", () =>
+    const NEV = $("#iNev");
+    const FAJTA = $("#iFajta");
+    const KOR = $("#iKor");
+    $(UJ_KUTYA_FELVITELE_FORM).on("submit", event =>
     {
+        event.preventDefault();
         OBJEKTUM_LISTA.push({
-            nev: NEV.value,
-            fajta: FAJTA.value,
-            kor: KOR.value
+            nev: NEV.val(),
+            fajta: FAJTA.val(),
+            kor: KOR.val()
         });
         tablazatotKiir(kutyakTablaBody, OBJEKTUM_LISTA);
     });
@@ -144,9 +146,4 @@ function tablazatotKiir(szuloElem, lista)
             tablazatotKiir(szuloElem, valtoztathatoObjektumLista);
         });
     });
-}
-
-function ujTagekKozeIr(tag, parameterek = null, tartalom = "")
-{
-    return `<${tag}${parameterek ? " " + parameterek : ""}>${tartalom}</${tag}>`;
 }
