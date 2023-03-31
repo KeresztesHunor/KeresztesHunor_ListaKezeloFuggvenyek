@@ -14,14 +14,14 @@
     <script src="main.js" type="module"></script>
     <title>Keresztes Hunor</title>
   </head>
-  <body>
-    <main class="container-lg">
+  <body class="bg-success">
+    <main class="container-lg bg-light pb-2">
       <header>
-        <h1>Adatok listázása</h1>
+        <h1 class="border-bottom border-dark">Adatok listázása</h1>
       </header>
       <nav></nav>
       <article>
-        <div>
+        <div class="mb-1">
           <h3>Keresés</h3>
           <div id="adatBevitel">
             <div>
@@ -43,7 +43,7 @@
             </div>
           </div>
         </div>
-        <div>
+        <div class="mb-1">
           <div class="bg-dark d-flex p-2 justify-content-between">
             <h5 class="mb-0 text-light">Új kutya felvitele</h5>
             <a
@@ -83,12 +83,12 @@
                 placeholder="Kor"
               />
             </div>
-            <button type="submit" class="btn btn-primary">Felvitel</button>
+            <button type="submit" class="btn btn-primary mt-1">Felvitel</button>
           </form>
         </div>
-        <table id="kutyak" class="table"></table>
+        <table id="kutyak" class="table table-striped"></table>
       </article>
-      <footer>Keresztes Hunor</footer>
+      <footer class="text-center bg-dark text-light">Keresztes Hunor</footer>
     </main>
   </body>
 </html>

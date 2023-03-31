@@ -24,16 +24,18 @@ const KULCSOK_LISTA = (() =>
 
 $(() =>
 {
+    //Új kutya felvitele form lenyitásának inicializálása
+
     const UJ_KUTYA_FELVITELE_LENYITO = $("#ujKutyaFelviteleLenyito")[0];
     const UJ_KUTYA_FELVITELE_FORM = $("#ujKutyaFelvitele")[0];
-    UJ_KUTYA_FELVITELE_LENYITO.innerHTML = "&#9660;";
-    UJ_KUTYA_FELVITELE_FORM.style.display = "none";
+    $(UJ_KUTYA_FELVITELE_LENYITO).html("&#9660;");
+    $(UJ_KUTYA_FELVITELE_FORM).css("display", "none")
     $(UJ_KUTYA_FELVITELE_LENYITO).on("click", event =>
     {
         event.preventDefault();
         felvivoFormLenyitva = !felvivoFormLenyitva;
-        UJ_KUTYA_FELVITELE_LENYITO.innerHTML = felvivoFormLenyitva ? "&#9650;" : "&#9660;";
-        UJ_KUTYA_FELVITELE_FORM.style.display = felvivoFormLenyitva ? "block" : "none";
+        $(UJ_KUTYA_FELVITELE_LENYITO).html(felvivoFormLenyitva ? "&#9650;" : "&#9660;");
+        $(UJ_KUTYA_FELVITELE_FORM).css("display", felvivoFormLenyitva ? "block" : "none");
     });
 
     //Kutyás táblázat vátának inicializálása
@@ -49,11 +51,26 @@ $(() =>
         txt += ujTagekKozeIr("th", null, "Törlés");
         return txt;
     })())));
-    kutyakTabla.append(ujTagekKozeIr("tbody", "class='table-striped'"));
+    kutyakTabla.append(ujTagekKozeIr("tbody"));
+
+    //Új kutya felvitelének lehetőségének inicializálása
+
+    kutyakTablaBody = $("#kutyak > tbody");
+    const NEV = $("#nev");
+    const FAJTA = $("#fajta");
+    const KOR = $("#kor");
+    $(UJ_KUTYA_FELVITELE_FORM).on("submit", () =>
+    {
+        OBJEKTUM_LISTA.push({
+            nev: NEV.value,
+            fajta: FAJTA.value,
+            kor: KOR.value
+        });
+        tablazatotKiir(kutyakTablaBody, OBJEKTUM_LISTA);
+    });
 
     //Rendezési szempont kiválaszthatóságának inicializálása
 
-    kutyakTablaBody = $("#kutyak > tbody");
     tablazatotKiir(kutyakTablaBody, valtoztathatoObjektumLista);
     const KUTYAK_TABLA_HEADEK = $("#kutyak > thead > tr > th > a").toArray();
     KUTYAK_TABLA_HEADEK.forEach((kutyakHead, index) =>
