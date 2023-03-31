@@ -24,8 +24,8 @@ $(() =>
                 txt += ujTagekKozeIr("div", "class='card-footer d-flex justify-content-around'", (() =>
                 {
                     let txt = "";
-                    txt += ujTagekKozeIr("button", "type='button' class='megtekintGomb btn btn-primary'", "Megtekint");
-                    txt += ujTagekKozeIr("button", "type='button' class='kosarbaGomb btn btn-primary'", "Kosárba");
+                    txt += ujTagekKozeIr("button", "type='button' class='megtekintGomb btn btn-primary' data-bs-toggle='modal' data-bs-target='#kutyakMegtekintAblak'", "Megtekint");
+                    txt += ujTagekKozeIr("button", "type='button' class='kosarbaGomb btn btn-primary' data-bs-toggle='modal' data-bs-target='#kutyakMegtekintAblak'", "Kosárba");
                     return txt;
                 })());
                 return txt;
@@ -33,9 +33,4 @@ $(() =>
         });
         return txt;
     })());
-    const MEGTEKINT_GOMBOK = $(WEBSHOP_KUTYAK).find("div > .card-footer > megtekintGomb").toArray();
-    MEGTEKINT_GOMBOK.forEach(megtekintGomb =>
-    {
-        
-    });
 });
