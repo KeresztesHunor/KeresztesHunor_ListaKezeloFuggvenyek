@@ -11,3 +11,15 @@
 #webshopKutyak > div .card-footer > button {
   flex-basis: 45%;
 }
+
+#kutyakMegtekintAblak > div > div > .modal-body > button {
+  height: 100%;
+}
+
+#kutyaMegtekintKep {
+  width: 516px;
+}
+
+#kutyaMegtekintKep > img {
+  width: 100%;
+}
