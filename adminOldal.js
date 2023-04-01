@@ -3,8 +3,8 @@ import { objektumosRendezes } from "./rendezes.js";
 import { szuresSzovegesErtekSzerint, szuresSzamErtekSzerint } from "./szures.js";
 import { ujTagekKozeIr, kepetIr } from "./qualityOfLifeMetodusok.js";
 
-let kutyakTabla;
-let kutyakTablaBody;
+let autokTabla;
+let autokTablaBody;
 
 let rendezesiSzempont;
 let novekvoSorrend = true;
@@ -25,24 +25,24 @@ const KULCSOK_LISTA = (() =>
 
 $(() =>
 {
-    //Új kutya felvitele form lenyitásának inicializálása
+    //Új autó felvitele form lenyitásának inicializálása
 
-    const UJ_KUTYA_FELVITELE_LENYITO = $("#ujKutyaFelviteleLenyito")[0];
-    const UJ_KUTYA_FELVITELE_FORM = $("#ujKutyaFelvitele")[0];
-    $(UJ_KUTYA_FELVITELE_LENYITO).html("&#9660;");
-    $(UJ_KUTYA_FELVITELE_FORM).css("display", "none")
-    $(UJ_KUTYA_FELVITELE_LENYITO).on("click", event =>
+    const UJ_AUTO_FELVITELE_LENYITO = $("#ujAutoFelviteleLenyito")[0];
+    const UJ_AUTO_FELVITELE_FORM = $("#ujAutoFelvitele")[0];
+    $(UJ_AUTO_FELVITELE_LENYITO).html("&#9660;");
+    $(UJ_AUTO_FELVITELE_FORM).css("display", "none")
+    $(UJ_AUTO_FELVITELE_LENYITO).on("click", event =>
     {
         event.preventDefault();
         felvivoFormLenyitva = !felvivoFormLenyitva;
-        $(UJ_KUTYA_FELVITELE_LENYITO).html(felvivoFormLenyitva ? "&#9650;" : "&#9660;");
-        $(UJ_KUTYA_FELVITELE_FORM).css("display", felvivoFormLenyitva ? "block" : "none");
+        $(UJ_AUTO_FELVITELE_LENYITO).html(felvivoFormLenyitva ? "&#9650;" : "&#9660;");
+        $(UJ_AUTO_FELVITELE_FORM).css("display", felvivoFormLenyitva ? "block" : "none");
     });
 
-    //Kutyás táblázat címeinek inicializálása
+    //Autós táblázat címeinek inicializálása
 
-    kutyakTabla = $("#kutyak");
-    kutyakTabla.append(ujTagekKozeIr("thead", "class='table-dark'", ujTagekKozeIr("tr", null, (() =>
+    autokTabla = $("#autok");
+    autokTabla.append(ujTagekKozeIr("thead", "class='table-dark'", ujTagekKozeIr("tr", null, (() =>
     {
         let txt = "";
         KULCSOK_LISTA.forEach(kulcs =>
@@ -52,13 +52,13 @@ $(() =>
         txt += ujTagekKozeIr("th", null, "Törlés");
         return txt;
     })())));
-    kutyakTabla.append(ujTagekKozeIr("tbody"));
+    autokTabla.append(ujTagekKozeIr("tbody"));
 
-    //Új kutya felvitelének lehetőségének inicializálása
+    //Új autó felvitelének lehetőségének inicializálása
 
-    kutyakTablaBody = $("#kutyak > tbody");
-    const INPUT_MEZOK = $("#ujKutyaFelvitele > div > input").toArray();
-    $(UJ_KUTYA_FELVITELE_FORM).on("submit", event =>
+    autokTablaBody = $("#autok > tbody");
+    const INPUT_MEZOK = $("#ujAutoFelvitele > div > input").toArray();
+    $(UJ_AUTO_FELVITELE_FORM).on("submit", event =>
     {
         event.preventDefault();
         if (helyesAdatok(INPUT_MEZOK))
@@ -69,17 +69,17 @@ $(() =>
                 OBJEKTUM[$(inputMezo).attr("id")] = $(inputMezo).val();
             });
             OBJEKTUM_LISTA.push(OBJEKTUM);
-            tablazatotKiir(kutyakTablaBody, OBJEKTUM_LISTA);
+            tablazatotKiir(autokTablaBody, OBJEKTUM_LISTA);
         }
     });
 
     //Rendezési szempont kiválaszthatóságának inicializálása
 
-    tablazatotKiir(kutyakTablaBody, valtoztathatoObjektumLista);
-    const KUTYAK_TABLA_HEADEK = $("#kutyak > thead > tr > th > a").toArray();
-    KUTYAK_TABLA_HEADEK.forEach((kutyakHead, index) =>
+    tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
+    const AUTOK_TABLA_HEADEK = $("#autok > thead > tr > th > a").toArray();
+    AUTOK_TABLA_HEADEK.forEach((autokHead, index) =>
     {
-        $(kutyakHead).on("click", event =>
+        $(autokHead).on("click", event =>
         {
             event.preventDefault();
             if (rendezesiSzempont !== KULCSOK_LISTA[index])
@@ -92,29 +92,35 @@ $(() =>
                 novekvoSorrend = !novekvoSorrend;
             }
             objektumosRendezes(valtoztathatoObjektumLista, KULCSOK_LISTA[index], novekvoSorrend);
-            tablazatotKiir(kutyakTablaBody, valtoztathatoObjektumLista);
+            tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
         });
     });
 
     //Szűrési lehetőség inicializálása
 
+    const GYARTO_INPUT_ELEM = $("#iGyarto");
     const NEV_INPUT_ELEM = $("#iNev");
-    const FAJTA_INPUT_ELEM = $("#iFajta");
-    const KOR_INPUT_ELEM = $("#iKor");
+    const EVJARAT_INPUT_ELEM = $("#iEvjarat");
+    const LOERO_INPUT_ELEM = $("#iLoero");
+    $(GYARTO_INPUT_ELEM).on("keyup", () =>
+    {
+        valtoztathatoObjektumLista = szuresSzovegesErtekSzerint(OBJEKTUM_LISTA, "gyarto", GYARTO_INPUT_ELEM.val());
+        tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
+    });
     $(NEV_INPUT_ELEM).on("keyup", () =>
     {
         valtoztathatoObjektumLista = szuresSzovegesErtekSzerint(OBJEKTUM_LISTA, "nev", NEV_INPUT_ELEM.val());
-        tablazatotKiir(kutyakTablaBody, valtoztathatoObjektumLista);
+        tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
     });
-    $(FAJTA_INPUT_ELEM).on("keyup", () =>
+    $(EVJARAT_INPUT_ELEM).on("change", () =>
     {
-        valtoztathatoObjektumLista = szuresSzovegesErtekSzerint(OBJEKTUM_LISTA, "fajta", FAJTA_INPUT_ELEM.val());
-        tablazatotKiir(kutyakTablaBody, valtoztathatoObjektumLista);
+        valtoztathatoObjektumLista = szuresSzamErtekSzerint(OBJEKTUM_LISTA, objektum => eval(objektum.evjarat + EVJARAT_INPUT_ELEM.val()));
+        tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
     });
-    $(KOR_INPUT_ELEM).on("change", () =>
+    $(LOERO_INPUT_ELEM).on("change", () =>
     {
-        valtoztathatoObjektumLista = szuresSzamErtekSzerint(OBJEKTUM_LISTA, objektum => eval(objektum.kor + KOR_INPUT_ELEM.val()));
-        tablazatotKiir(kutyakTablaBody, valtoztathatoObjektumLista);
+        valtoztathatoObjektumLista = szuresSzamErtekSzerint(OBJEKTUM_LISTA, objektum => eval(objektum.loero + LOERO_INPUT_ELEM.val()));
+        tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
     });
 });
 
@@ -128,10 +134,10 @@ function tablazatotKiir(szuloElem, lista)
             txt += ujTagekKozeIr("tr", null, (() =>
             {
                 let txt = "";
-                for (const KULCS in objektum)
+                KULCSOK_LISTA.forEach(kulcs =>
                 {
-                    txt += ujTagekKozeIr("td", null, objektum[KULCS]);
-                }
+                    txt += ujTagekKozeIr("td", null, objektum[kulcs]);
+                });
                 txt += ujTagekKozeIr("td", null, ujTagekKozeIr("a", "href='#' class='fw-bold fs-5 text-danger text-shadow text-decoration-none'", "&times;"));
                 return txt;
             })());

@@ -1,25 +1,17 @@
 @import url("altalanosStilus.css");
 
-#webshopKutyak > div {
+#webshopAutok > div {
   width: 256px;
 }
 
-#webshopKutyak > div > img {
+#webshopAutok > div > img {
   width: 100%;
 }
 
-#webshopKutyak > div .card-footer > button {
+#webshopAutok > div .card-footer > button {
   flex-basis: 45%;
 }
 
-#kutyakMegtekintAblak > div > div > .modal-body > button {
-  height: 100%;
-}
-
-#kutyaMegtekintKep {
-  width: 516px;
-}
-
-#kutyaMegtekintKep > img {
+#autoMegtekintKep > img {
   width: 100%;
 }

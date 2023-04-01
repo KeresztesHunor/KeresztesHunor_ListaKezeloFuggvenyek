@@ -1,38 +1,71 @@
 export const KULCS_NEVEK = {
+    gyarto: "Gyártó",
     nev: "Név",
-    fajta: "Fajta",
-    kor: "Kor"
+    evjarat: "Évjárat",
+    loero: "Lóerő"
 };
 
 export const ADAT_FORMATUM_MEGKOTESEK = {
-    nev: /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]$/,
-    fajta: /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]$/
+    gyarto: /^[a-zA-Z]+$/,
+    nev: /^[a-zA-Z0-9-]+$/,
+    evjarat: /^\d{4}$/
 }
 
 export const OBJEKTUM_LISTA = [
     {
-        nev: "Dézi",
-        fajta: "keverék",
-        kor: 2
+        gyarto: "Ford",
+        nev: "Mustang GT Fastback",
+        evjarat: 1967,
+        loero: 320,
+        kep: "1967_Ford_Mustang_GT_Fastback.jpg"
     },
     {
-        nev: "Bodri",
-        fajta: "mudi",
-        kor: 12
+        gyarto: "Jaguar",
+        nev: "E-type",
+        evjarat: 1967,
+        loero: 265,
+        kep: "Jaguar_E-type.jpg"
     },
     {
-        nev: "Loki",
-        fajta: "tacskó",
-        kor: 5
+        gyarto: "Lamborghini",
+        nev: "Murcielago",
+        evjarat: 2001,
+        loero: 571,
+        kep: "Lamborghini_Murcielago.webp"
     },
     {
-        nev: "Zuri",
-        fajta: "foxterrier",
-        kor: 4
+        gyarto: "Lancia",
+        nev: "Stratos",
+        evjarat: 1972,
+        loero: 190,
+        kep: "Lancia_Stratos.jpg"
     },
     {
-        nev: "Happy",
-        fajta: "németjuhász",
-        kor: 4
+        gyarto: "Lexus",
+        nev: "LFA",
+        evjarat: 2010,
+        loero: 553,
+        kep: "Lexus_LFA.jpg"
+    },
+    {
+        gyarto: "Mazda",
+        nev: "NA Miata",
+        evjarat: 1996,
+        loero: 128,
+        kep: "Mazda_MX-5_NA_Miata.jpg"
+    },
+    {
+        gyarto: "McLaren",
+        nev: "F1",
+        evjarat: 1992,
+        loero: 627,
+        kep: "McLaren_F1.webp"
+    },
+    {
+        gyarto: "Toyota",
+        nev: "Supra",
+        evjarat: 1994,
+        loero: 320,
+        kep: "Toyota_Supra.jpg"
     }
 ];

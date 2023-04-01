@@ -26,7 +26,9 @@
               <a class="nav-link" href="index.html">Webshop</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="adminOldal.html">Admin felület</a>
+              <a class="nav-link active" href="adminOldal.html"
+                >Admin felület</a
+              >
             </li>
           </ul>
         </div>
@@ -36,63 +38,86 @@
           <h3>Keresés:</h3>
           <div id="adatBevitel">
             <div>
+              <label for="iGyarto">Gyártó:</label
+              ><input
+                id="iGyarto"
+                type="text"
+                placeholder="gyártó"
+                name="gyártó"
+              />
+            </div>
+            <div>
               <label for="iNev">Név:</label>
               <input id="iNev" type="text" placeholder="név" name="nev" />
             </div>
             <div>
-              <label for="iFajta">Fajta:</label>
-              <input id="iFajta" type="text" placeholder="fajta" name="fajta" />
+              <label for="iEvjarat">Évjárat:</label>
+              <input
+                id="iEvjarat"
+                type="text"
+                placeholder="pl.: < 1995, === 1995, >= 1995"
+                name="évjárat"
+              />
             </div>
             <div>
-              <label for="iKor">Kor:</label>
+              <label for="iLoero">Lóerő:</label>
               <input
-                id="iKor"
+                id="iLoero"
                 type="text"
-                placeholder="pl.: < 12, === 12, >= 12"
-                name="kor"
+                placeholder="pl.: < 100, === 100, >= 100"
+                name="lóerő"
               />
             </div>
           </div>
         </div>
         <div class="mb-1">
           <div class="bg-dark d-flex p-2 justify-content-between">
-            <h5 class="mb-0 text-light">Új kutya felvitele</h5>
+            <h5 class="mb-0 text-light">Új autó felvitele</h5>
             <a
               href="#"
-              id="ujKutyaFelviteleLenyito"
+              id="ujAutoFelviteleLenyito"
               class="text-light text-decoration-none"
             ></a>
           </div>
-          <form id="ujKutyaFelvitele" onsubmit="">
+          <form id="ujAutoFelvitele" onsubmit="">
             <div class="form-group">
+              <label for="gyarto">Gyártó</label>
+              <input
+                type="text"
+                class="form-control"
+                id="gyarto"
+                name="gyarto"
+                placeholder="Csak kis- és nagybetűk (min. 1 karakter)"
+                required
+              />
               <label for="nev">Név</label>
               <input
                 type="text"
                 class="form-control"
                 id="nev"
                 name="nev"
-                placeholder="Csak kis- és nagybetűk (min. 1 karakter)"
+                placeholder="Csak kis- és nagybetűk, számok és '-' (min. 1 karakter)"
                 required
               />
             </div>
             <div class="form-group">
-              <label for="fajta">Fajta</label>
-              <input
-                type="text"
-                class="form-control"
-                id="fajta"
-                name="fajta"
-                placeholder="Csak kis- és nagybetűk (min. 1 karakter)"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="kor">Kor</label>
+              <label for="evjarat">Évjárat</label>
               <input
                 type="number"
                 class="form-control"
-                id="kor"
-                name="kor"
+                id="evjarat"
+                name="evjarat"
+                placeholder="4 számjegyű szám"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="loero">Lóerő</label>
+              <input
+                type="number"
+                class="form-control"
+                id="loero"
+                name="loero"
                 placeholder="Csak szám"
                 required
                 min="0"
@@ -101,7 +126,7 @@
             <button type="submit" class="btn btn-primary mt-1">Felvitel</button>
           </form>
         </div>
-        <table id="kutyak" class="table table-striped"></table>
+        <table id="autok" class="table table-striped"></table>
       </article>
       <footer class="text-center bg-dark text-light">Keresztes Hunor</footer>
     </main>
