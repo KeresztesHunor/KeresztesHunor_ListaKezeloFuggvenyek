@@ -1,4 +1,4 @@
-import { KULCS_NEVEK, OBJEKTUM_LISTA } from "./adat.js";
+import { KULCS_NEVEK, ADAT_FORMATUM_MEGKOTESEK, OBJEKTUM_LISTA } from "./adat.js";
 import { objektumosRendezes } from "./rendezes.js";
 import { szuresSzovegesErtekSzerint, szuresSzamErtekSzerint } from "./szures.js";
 import { ujTagekKozeIr, kepetIr } from "./qualityOfLifeMetodusok.js";
@@ -39,7 +39,7 @@ $(() =>
         $(UJ_KUTYA_FELVITELE_FORM).css("display", felvivoFormLenyitva ? "block" : "none");
     });
 
-    //Kutyás táblázat vátának inicializálása
+    //Kutyás táblázat címeinek inicializálása
 
     kutyakTabla = $("#kutyak");
     kutyakTabla.append(ujTagekKozeIr("thead", "class='table-dark'", ujTagekKozeIr("tr", null, (() =>
@@ -57,18 +57,20 @@ $(() =>
     //Új kutya felvitelének lehetőségének inicializálása
 
     kutyakTablaBody = $("#kutyak > tbody");
-    const NEV = $("#iNev");
-    const FAJTA = $("#iFajta");
-    const KOR = $("#iKor");
+    const INPUT_MEZOK = $("#ujKutyaFelvitele > div > input").toArray();
     $(UJ_KUTYA_FELVITELE_FORM).on("submit", event =>
     {
         event.preventDefault();
-        OBJEKTUM_LISTA.push({
-            nev: NEV.val(),
-            fajta: FAJTA.val(),
-            kor: KOR.val()
-        });
-        tablazatotKiir(kutyakTablaBody, OBJEKTUM_LISTA);
+        if (helyesAdatok(INPUT_MEZOK))
+        {
+            const OBJEKTUM = {};
+            INPUT_MEZOK.forEach(inputMezo =>
+            {
+                OBJEKTUM[$(inputMezo).attr("id")] = $(inputMezo).val();
+            });
+            OBJEKTUM_LISTA.push(OBJEKTUM);
+            tablazatotKiir(kutyakTablaBody, OBJEKTUM_LISTA);
+        }
     });
 
     //Rendezési szempont kiválaszthatóságának inicializálása
@@ -96,9 +98,9 @@ $(() =>
 
     //Szűrési lehetőség inicializálása
 
-    const NEV_INPUT_ELEM = $("#nev");
-    const FAJTA_INPUT_ELEM = $("#fajta");
-    const KOR_INPUT_ELEM = $("#kor");
+    const NEV_INPUT_ELEM = $("#iNev");
+    const FAJTA_INPUT_ELEM = $("#iFajta");
+    const KOR_INPUT_ELEM = $("#iKor");
     $(NEV_INPUT_ELEM).on("keyup", () =>
     {
         valtoztathatoObjektumLista = szuresSzovegesErtekSzerint(OBJEKTUM_LISTA, "nev", NEV_INPUT_ELEM.val());
@@ -146,4 +148,18 @@ function tablazatotKiir(szuloElem, lista)
             tablazatotKiir(szuloElem, valtoztathatoObjektumLista);
         });
     });
+}
+
+function helyesAdatok(inputMezok)
+{
+    for (let i = 0; i < inputMezok.length; i++)
+    {
+        const ID = $(inputMezok[i]).attr("id");
+        if (ADAT_FORMATUM_MEGKOTESEK.hasOwnProperty(ID) && !ADAT_FORMATUM_MEGKOTESEK[ID].test($(inputMezok[i]).val()))
+        {
+            alert(`Hiba! A megadott ${KULCS_NEVEK[ID].toLowerCase()} nem követi a megszabott formátumot.`);
+            return false;
+        }
+    }
+    return true;
 }

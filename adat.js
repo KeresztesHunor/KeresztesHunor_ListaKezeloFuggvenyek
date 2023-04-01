@@ -4,6 +4,11 @@ export const KULCS_NEVEK = {
     kor: "Kor"
 };
 
+export const ADAT_FORMATUM_MEGKOTESEK = {
+    nev: /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]$/,
+    fajta: /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ]$/
+}
+
 export const OBJEKTUM_LISTA = [
     {
         nev: "Dézi",

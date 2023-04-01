@@ -10,8 +10,13 @@ let megtekintesAblakKepIndex = 0;
 
 $(() =>
 {
+    //Oldal betöltésénél kutyák kiírása
+
     webshopKutyak = $("#webshopKutyak");
     kutyakatKiir();
+
+    //Kutya megtekintő ablak gobjainak inicializálása
+
     const KUTYAK_MEGTEKINT_ABLAK_BALRA_GOMB = $("#balraGomb");
     const KUTYAK_MEGTEKINT_ABLAK_JOBBRA_GOMB = $("#jobbraGomb");
     $(KUTYAK_MEGTEKINT_ABLAK_BALRA_GOMB).on("click", () =>
