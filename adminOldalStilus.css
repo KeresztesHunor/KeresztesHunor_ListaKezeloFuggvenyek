@@ -1,5 +1,3 @@
-@import url("altalanosStilus.css");
-
 #adatBevitel {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -9,6 +7,19 @@
   display: grid;
   grid-template-columns: 1fr 3fr;
   text-align: center;
+}
+
+#autok {
+  width: 100%;
+  table-layout: fixed;
+}
+
+#autok > colgroup > col:not(:last-child) {
+  width: calc((100% - 64px) / (var(--col-count) - 1));
+}
+
+#autok > colgroup > col:last-child {
+  width: 64px;
 }
 
 @media screen and (max-width: 992px) {

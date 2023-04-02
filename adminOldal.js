@@ -3,7 +3,6 @@ import { objektumosRendezes } from "./rendezes.js";
 import { szuresSzovegesErtekSzerint, szuresSzamErtekSzerint } from "./szures.js";
 import { ujTagekKozeIr, kepetIr } from "./qualityOfLifeMetodusok.js";
 
-let autokTabla;
 let autokTablaBody;
 
 let rendezesiSzempont;
@@ -39,10 +38,24 @@ $(() =>
         $(UJ_AUTO_FELVITELE_FORM).css("display", felvivoFormLenyitva ? "block" : "none");
     });
 
+    //Autós táblázat oszlop szélességeinek inicializálása
+
+    const AUTOK_TABLA_COLGROUP = $("#autok > colgroup");
+    AUTOK_TABLA_COLGROUP.css("--col-count", KULCSOK_LISTA.length + 1);
+    $(AUTOK_TABLA_COLGROUP).html((() =>
+    {
+        let txt = "";
+        for (let i = 0; i < KULCSOK_LISTA.length + 1; i++)
+        {
+            txt += "<col>";
+        }
+        return txt;
+    })());
+
     //Autós táblázat címeinek inicializálása
 
-    autokTabla = $("#autok");
-    autokTabla.append(ujTagekKozeIr("thead", "class='table-dark'", ujTagekKozeIr("tr", null, (() =>
+    const AUTOK_TABLA_HEAD = $("#autok > thead");
+    AUTOK_TABLA_HEAD.append(ujTagekKozeIr("tr", null, (() =>
     {
         let txt = "";
         KULCSOK_LISTA.forEach(kulcs =>
@@ -51,8 +64,7 @@ $(() =>
         });
         txt += ujTagekKozeIr("th", null, "Törlés");
         return txt;
-    })())));
-    autokTabla.append(ujTagekKozeIr("tbody"));
+    })()));
 
     //Új autó felvitelének lehetőségének inicializálása
 
@@ -102,26 +114,10 @@ $(() =>
     const NEV_INPUT_ELEM = $("#iNev");
     const EVJARAT_INPUT_ELEM = $("#iEvjarat");
     const LOERO_INPUT_ELEM = $("#iLoero");
-    $(GYARTO_INPUT_ELEM).on("keyup", () =>
-    {
-        valtoztathatoObjektumLista = szuresSzovegesErtekSzerint(OBJEKTUM_LISTA, "gyarto", GYARTO_INPUT_ELEM.val());
-        tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
-    });
-    $(NEV_INPUT_ELEM).on("keyup", () =>
-    {
-        valtoztathatoObjektumLista = szuresSzovegesErtekSzerint(OBJEKTUM_LISTA, "nev", NEV_INPUT_ELEM.val());
-        tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
-    });
-    $(EVJARAT_INPUT_ELEM).on("change", () =>
-    {
-        valtoztathatoObjektumLista = szuresSzamErtekSzerint(OBJEKTUM_LISTA, objektum => eval(objektum.evjarat + EVJARAT_INPUT_ELEM.val()));
-        tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
-    });
-    $(LOERO_INPUT_ELEM).on("change", () =>
-    {
-        valtoztathatoObjektumLista = szuresSzamErtekSzerint(OBJEKTUM_LISTA, objektum => eval(objektum.loero + LOERO_INPUT_ELEM.val()));
-        tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
-    });
+    szuresSzovegekreInit(GYARTO_INPUT_ELEM);
+    szuresSzovegekreInit(NEV_INPUT_ELEM);
+    szuresSzamOsszehasonlitasraInit(EVJARAT_INPUT_ELEM);
+    szuresSzamOsszehasonlitasraInit(LOERO_INPUT_ELEM);
 });
 
 function tablazatotKiir(szuloElem, lista)
@@ -138,7 +134,7 @@ function tablazatotKiir(szuloElem, lista)
                 {
                     txt += ujTagekKozeIr("td", null, objektum[kulcs]);
                 });
-                txt += ujTagekKozeIr("td", null, ujTagekKozeIr("a", "href='#' class='fw-bold fs-5 text-danger text-shadow text-decoration-none'", "&times;"));
+                txt += ujTagekKozeIr("td", "class='text-center'", ujTagekKozeIr("a", "href='#' class='fw-bold fs-5 text-danger text-shadow text-decoration-none'", "&times;"));
                 return txt;
             })());
         });
@@ -153,6 +149,24 @@ function tablazatotKiir(szuloElem, lista)
             valtoztathatoObjektumLista.splice(index, 1);
             tablazatotKiir(szuloElem, valtoztathatoObjektumLista);
         });
+    });
+}
+
+function szuresSzovegekreInit(inputMezo)
+{
+    $(inputMezo).on("keyup", () =>
+    {
+        valtoztathatoObjektumLista = szuresSzovegesErtekSzerint(OBJEKTUM_LISTA, $(inputMezo).attr("id").slice(1).toLowerCase(), inputMezo.val());
+        tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
+    });
+}
+
+function szuresSzamOsszehasonlitasraInit(inputMezo)
+{
+    $(inputMezo).on("change", () =>
+    {
+        valtoztathatoObjektumLista = szuresSzamErtekSzerint(OBJEKTUM_LISTA, objektum => eval(objektum[$(inputMezo).attr("id").slice(1).toLowerCase()] + inputMezo.val()));
+        tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
     });
 }
 
