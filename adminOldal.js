@@ -55,10 +55,11 @@ $(() =>
     //Autós táblázat címeinek inicializálása
 
     const AUTOK_TABLA_HEADEK = $("#autok > thead > tr > th").toArray();
-    AUTOK_TABLA_HEADEK.forEach((head, index) =>
+    const AUTOK_TABLA_INPUT_MEZOK = $("#autok > thead > tr > th > input").toArray();
+    for (let i = 0; i < AUTOK_TABLA_INPUT_MEZOK.length; i++)
     {
-        $(head).prepend(ujTagekKozeIr("a", "href='#' class='text-light text-decoration-none'", KULCS_NEVEK[KULCSOK_LISTA[index]]));
-    });
+        $(AUTOK_TABLA_HEADEK[i]).prepend(ujTagekKozeIr("a", "href='#' class='text-light text-decoration-none'", KULCS_NEVEK[KULCSOK_LISTA[i]]));
+    }
 
     //Új autó felvitelének lehetőségének inicializálása
 
@@ -128,7 +129,7 @@ function tablazatotKiir(szuloElem, lista)
                 {
                     txt += ujTagekKozeIr("td", null, objektum[kulcs]);
                 });
-                txt += ujTagekKozeIr("td", "class='text-center'", ujTagekKozeIr("a", "href='#' class='fw-bold fs-5 text-danger text-shadow text-decoration-none'", "&times;"));
+                txt += ujTagekKozeIr("td", "class='text-center'", ujTagekKozeIr("a", "href='#' class='fw-bold fs-3 text-danger text-shadow text-decoration-none'", "&times;"));
                 return txt;
             })());
         });

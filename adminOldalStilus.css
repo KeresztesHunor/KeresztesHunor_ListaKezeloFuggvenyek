@@ -22,6 +22,10 @@
   width: 64px;
 }
 
+#autok > thead > tr > th > input {
+  width: 100%;
+}
+
 @media screen and (max-width: 992px) {
   #adatBevitel {
     grid-template-columns: 1fr 1fr;
