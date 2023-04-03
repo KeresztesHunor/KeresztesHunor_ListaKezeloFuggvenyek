@@ -15,7 +15,7 @@
 }
 
 #autok > colgroup > col:not(:last-child) {
-  width: calc((100% - 64px) / (var(--col-count) - 1));
+  width: calc((100% - 64px) / (var(--oszlopok-szama) - 1));
 }
 
 #autok > colgroup > col:last-child {

@@ -1,7 +1,7 @@
 import { KULCS_NEVEK, ADAT_FORMATUM_MEGKOTESEK, OBJEKTUM_LISTA } from "./adat.js";
 import { objektumosRendezes } from "./rendezes.js";
 import { szuresSzovegesErtekSzerint, szuresSzamErtekSzerint } from "./szures.js";
-import { ujTagekKozeIr, kepetIr } from "./qualityOfLifeMetodusok.js";
+import { ujTagekKozeIr, kepetIr, ujParatlanTagetIr } from "./qualityOfLifeMetodusok.js";
 
 let autokTablaBody;
 
@@ -41,30 +41,24 @@ $(() =>
     //Autós táblázat oszlop szélességeinek inicializálása
 
     const AUTOK_TABLA_COLGROUP = $("#autok > colgroup");
-    AUTOK_TABLA_COLGROUP.css("--col-count", KULCSOK_LISTA.length + 1);
+    AUTOK_TABLA_COLGROUP.css("--oszlopok-szama", KULCSOK_LISTA.length + 1);
     $(AUTOK_TABLA_COLGROUP).html((() =>
     {
         let txt = "";
         for (let i = 0; i < KULCSOK_LISTA.length + 1; i++)
         {
-            txt += "<col>";
+            txt += ujParatlanTagetIr("col");
         }
         return txt;
     })());
 
     //Autós táblázat címeinek inicializálása
 
-    const AUTOK_TABLA_HEAD = $("#autok > thead");
-    AUTOK_TABLA_HEAD.append(ujTagekKozeIr("tr", null, (() =>
+    const AUTOK_TABLA_HEADEK = $("#autok > thead > tr > th").toArray();
+    AUTOK_TABLA_HEADEK.forEach((head, index) =>
     {
-        let txt = "";
-        KULCSOK_LISTA.forEach(kulcs =>
-        {
-            txt += ujTagekKozeIr("th", null, ujTagekKozeIr("a", "href='#' class='text-light text-decoration-none'", KULCS_NEVEK[kulcs]));
-        });
-        txt += ujTagekKozeIr("th", null, "Törlés");
-        return txt;
-    })()));
+        $(head).prepend(ujTagekKozeIr("a", "href='#' class='text-light text-decoration-none'", KULCS_NEVEK[KULCSOK_LISTA[index]]));
+    });
 
     //Új autó felvitelének lehetőségének inicializálása
 
@@ -88,8 +82,8 @@ $(() =>
     //Rendezési szempont kiválaszthatóságának inicializálása
 
     tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
-    const AUTOK_TABLA_HEADEK = $("#autok > thead > tr > th > a").toArray();
-    AUTOK_TABLA_HEADEK.forEach((autokHead, index) =>
+    const AUTOK_TABLA_HEADEK_SZOVEG = $("#autok > thead > tr > th > a").toArray();
+    AUTOK_TABLA_HEADEK_SZOVEG.forEach((autokHead, index) =>
     {
         $(autokHead).on("click", event =>
         {

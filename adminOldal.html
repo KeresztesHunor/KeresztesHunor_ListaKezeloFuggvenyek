@@ -34,43 +34,7 @@
         </div>
       </nav>
       <article>
-        <div class="mb-1">
-          <h3>Keresés:</h3>
-          <div id="adatBevitel">
-            <div>
-              <label for="iGyarto">Gyártó:</label
-              ><input
-                id="iGyarto"
-                type="text"
-                placeholder="gyártó"
-                name="gyártó"
-              />
-            </div>
-            <div>
-              <label for="iNev">Név:</label>
-              <input id="iNev" type="text" placeholder="név" name="nev" />
-            </div>
-            <div>
-              <label for="iEvjarat">Évjárat:</label>
-              <input
-                id="iEvjarat"
-                type="text"
-                placeholder="pl.: < 1995, === 1995, >= 1995"
-                name="évjárat"
-              />
-            </div>
-            <div>
-              <label for="iLoero">Lóerő:</label>
-              <input
-                id="iLoero"
-                type="text"
-                placeholder="pl.: < 100, === 100, >= 100"
-                name="lóerő"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="mb-1">
+        <div class="mt-1 mb-1">
           <div class="bg-dark d-flex p-2 justify-content-between">
             <h5 class="mb-0 text-light">Új autó felvitele</h5>
             <a
@@ -79,7 +43,7 @@
               class="text-light text-decoration-none"
             ></a>
           </div>
-          <form id="ujAutoFelvitele" onsubmit="">
+          <form id="ujAutoFelvitele">
             <div class="form-group">
               <label for="gyarto">Gyártó</label>
               <input
@@ -128,7 +92,40 @@
         </div>
         <table id="autok" class="table table-striped">
           <colgroup></colgroup>
-          <thead class="table-dark"></thead>
+          <thead class="table-dark">
+            <tr>
+              <th>
+                <input
+                  id="iGyarto"
+                  type="text"
+                  placeholder="gyártó"
+                  name="gyártó"
+                />
+              </th>
+              <th>
+                <input id="iNev" type="text" placeholder="név" name="nev" />
+              </th>
+              <th>
+                <input
+                  id="iEvjarat"
+                  type="text"
+                  placeholder="pl.: < 1995, === 1995, >= 1995"
+                  name="évjárat"
+                />
+              </th>
+              <th>
+                <input
+                  id="iLoero"
+                  type="text"
+                  placeholder="pl.: < 100, === 100, >= 100"
+                  name="lóerő"
+                />
+              </th>
+              <th>
+                Törlés
+              </th>
+            </tr>
+          </thead>
           <tbody></tbody>
         </table>
       </article>

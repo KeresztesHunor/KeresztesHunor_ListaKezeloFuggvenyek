@@ -1,5 +1,5 @@
 import { KULCS_NEVEK, OBJEKTUM_LISTA } from "./adat.js";
-import { ujTagekKozeIr, kepetIr } from "./qualityOfLifeMetodusok.js";
+import { ujTagekKozeIr, kepetIr, ujParatlanTagetIr } from "./qualityOfLifeMetodusok.js";
 
 let webshopAutok;
 let autoMegtekintKep;
