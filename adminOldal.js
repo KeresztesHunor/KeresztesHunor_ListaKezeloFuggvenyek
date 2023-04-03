@@ -129,7 +129,7 @@ function tablazatotKiir(szuloElem, lista)
                 {
                     txt += ujTagekKozeIr("td", null, objektum[kulcs]);
                 });
-                txt += ujTagekKozeIr("td", "class='text-center'", ujTagekKozeIr("a", "href='#' class='fw-bold fs-3 text-danger text-shadow text-decoration-none'", "&times;"));
+                txt += ujTagekKozeIr("td", "class='text-center'", ujTagekKozeIr("a", "href='#' class='fw-bold fs-3 text-danger text-decoration-none'", "&times;"));
                 return txt;
             })());
         });

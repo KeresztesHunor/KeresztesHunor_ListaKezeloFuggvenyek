@@ -57,7 +57,7 @@ function autokatKiir()
                     txt += ujTagekKozeIr("li", "class='list-group-item'", `${KULCS_NEVEK.loero}: ${auto.loero}`);
                     return txt;
                 })()));
-                txt += ujTagekKozeIr("div", "class='card-footer d-flex justify-content-around'", (() =>
+                txt += ujTagekKozeIr("div", "class='card-footer d-flex flex-wrap justify-content-around'", (() =>
                 {
                     let txt = "";
                     txt += ujTagekKozeIr("button", "type='button' class='megtekintGomb btn btn-primary' data-bs-toggle='modal' data-bs-target='#autokMegtekintAblak'", "Megtekint");
