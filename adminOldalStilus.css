@@ -10,19 +10,24 @@
 }
 
 #autok {
+  overflow-x: auto;
+}
+
+#autok > table {
   width: 100%;
+  min-width: 768px;
   table-layout: fixed;
 }
 
-#autok > colgroup > col:not(:last-child) {
+#autok > table > colgroup > col:not(:last-child) {
   width: calc((100% - 64px) / (var(--oszlopok-szama) - 1));
 }
 
-#autok > colgroup > col:last-child {
+#autok > table > colgroup > col:last-child {
   width: 64px;
 }
 
-#autok > thead > tr > th > input {
+#autok > table > thead > tr > th > input {
   width: 100%;
 }
 

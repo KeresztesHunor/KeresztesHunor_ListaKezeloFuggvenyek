@@ -90,42 +90,17 @@
             <button type="submit" class="btn btn-primary mt-1">Felvitel</button>
           </form>
         </div>
-        <table id="autok" class="table table-striped">
-          <colgroup></colgroup>
-          <thead class="table-dark">
-            <tr>
-              <th>
-                <input
-                  id="iGyarto"
-                  type="text"
-                  placeholder="gyártó"
-                  name="gyártó"
-                />
-              </th>
-              <th>
-                <input id="iNev" type="text" placeholder="név" name="nev" />
-              </th>
-              <th>
-                <input
-                  id="iEvjarat"
-                  type="text"
-                  placeholder="pl.: < 1995, === 1995, >= 1995"
-                  name="évjárat"
-                />
-              </th>
-              <th>
-                <input
-                  id="iLoero"
-                  type="text"
-                  placeholder="pl.: < 100, === 100, >= 100"
-                  name="lóerő"
-                />
-              </th>
-              <th>Törlés</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+        <div id="autok">
+          <table class="table table-striped">
+            <colgroup></colgroup>
+            <thead class="table-dark">
+              <tr>
+                <th valign="middle">Törlés</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </article>
       <footer class="text-center bg-dark text-light">Keresztes Hunor</footer>
     </main>

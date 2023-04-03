@@ -40,7 +40,7 @@ $(() =>
 
     //Autós táblázat oszlop szélességeinek inicializálása
 
-    const AUTOK_TABLA_COLGROUP = $("#autok > colgroup");
+    const AUTOK_TABLA_COLGROUP = $("#autok > table > colgroup");
     AUTOK_TABLA_COLGROUP.css("--oszlopok-szama", KULCSOK_LISTA.length + 1);
     $(AUTOK_TABLA_COLGROUP).html((() =>
     {
@@ -54,16 +54,57 @@ $(() =>
 
     //Autós táblázat címeinek inicializálása
 
-    const AUTOK_TABLA_HEADEK = $("#autok > thead > tr > th").toArray();
-    const AUTOK_TABLA_INPUT_MEZOK = $("#autok > thead > tr > th > input").toArray();
-    for (let i = 0; i < AUTOK_TABLA_INPUT_MEZOK.length; i++)
+    const AUTOK_TABLA_HEAD_ROW = $("#autok > table > thead > tr");
+    $(AUTOK_TABLA_HEAD_ROW).prepend((() =>
     {
-        $(AUTOK_TABLA_HEADEK[i]).prepend(ujTagekKozeIr("a", "href='#' class='text-light text-decoration-none'", KULCS_NEVEK[KULCSOK_LISTA[i]]));
-    }
+        let txt = "";
+        KULCSOK_LISTA.forEach((kulcs, index) =>
+        {
+            txt += ujTagekKozeIr("th", null, (() =>
+            {
+                let txt = "";
+                txt += ujTagekKozeIr("a", "href='#' class='text-light text-decoration-none'", KULCS_NEVEK[kulcs]);
+                txt += ujParatlanTagetIr("input", `
+                    id="${"i" + kulcs.charAt(0).toUpperCase() + kulcs.slice(1)}"
+                    type="${(() =>
+                        {
+                            switch (typeof(OBJEKTUM_LISTA[0][KULCSOK_LISTA[index]]))
+                            {
+                                case "number":
+                                    return "number";
+                                default:
+                                    return "text";
+                            }
+                        })()
+                    }"
+                    placeholder="${KULCS_NEVEK[kulcs]}"
+                    name="${KULCS_NEVEK[kulcs]}"
+                `);
+                return txt;
+            })());
+        });
+        return txt;
+    })());
+
+    //Szűrési lehetőség inicializálása
+
+    const AUTOK_TABLA_INPUT_MEZOK = $("#autok > table > thead > tr > th > input").toArray();
+    AUTOK_TABLA_INPUT_MEZOK.forEach(inputMezo =>
+    {
+        switch ($(inputMezo).attr("type"))
+        {
+            case "text":
+                szuresSzovegekreInit(inputMezo);
+                break;
+            case "number":
+                szuresSzamOsszehasonlitasraInit(inputMezo);
+                break;
+        }
+    });
 
     //Új autó felvitelének lehetőségének inicializálása
 
-    autokTablaBody = $("#autok > tbody");
+    autokTablaBody = $("#autok > table > tbody");
     const INPUT_MEZOK = $("#ujAutoFelvitele > div > input").toArray();
     $(UJ_AUTO_FELVITELE_FORM).on("submit", event =>
     {
@@ -83,7 +124,7 @@ $(() =>
     //Rendezési szempont kiválaszthatóságának inicializálása
 
     tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
-    const AUTOK_TABLA_HEADEK_SZOVEG = $("#autok > thead > tr > th > a").toArray();
+    const AUTOK_TABLA_HEADEK_SZOVEG = $("#autok > table > thead > tr > th > a").toArray();
     AUTOK_TABLA_HEADEK_SZOVEG.forEach((autokHead, index) =>
     {
         $(autokHead).on("click", event =>
@@ -102,17 +143,6 @@ $(() =>
             tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
         });
     });
-
-    //Szűrési lehetőség inicializálása
-
-    const GYARTO_INPUT_ELEM = $("#iGyarto");
-    const NEV_INPUT_ELEM = $("#iNev");
-    const EVJARAT_INPUT_ELEM = $("#iEvjarat");
-    const LOERO_INPUT_ELEM = $("#iLoero");
-    szuresSzovegekreInit(GYARTO_INPUT_ELEM);
-    szuresSzovegekreInit(NEV_INPUT_ELEM);
-    szuresSzamOsszehasonlitasraInit(EVJARAT_INPUT_ELEM);
-    szuresSzamOsszehasonlitasraInit(LOERO_INPUT_ELEM);
 });
 
 function tablazatotKiir(szuloElem, lista)
@@ -151,7 +181,7 @@ function szuresSzovegekreInit(inputMezo)
 {
     $(inputMezo).on("keyup", () =>
     {
-        valtoztathatoObjektumLista = szuresSzovegesErtekSzerint(OBJEKTUM_LISTA, $(inputMezo).attr("id").slice(1).toLowerCase(), inputMezo.val());
+        valtoztathatoObjektumLista = szuresSzovegesErtekSzerint(OBJEKTUM_LISTA, $(inputMezo).attr("id").slice(1).toLowerCase(), $(inputMezo).val());
         tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
     });
 }
@@ -160,7 +190,7 @@ function szuresSzamOsszehasonlitasraInit(inputMezo)
 {
     $(inputMezo).on("change", () =>
     {
-        valtoztathatoObjektumLista = szuresSzamErtekSzerint(OBJEKTUM_LISTA, objektum => eval(objektum[$(inputMezo).attr("id").slice(1).toLowerCase()] + inputMezo.val()));
+        valtoztathatoObjektumLista = szuresSzamErtekSzerint(OBJEKTUM_LISTA, objektum => eval(objektum[$(inputMezo).attr("id").slice(1).toLowerCase()] + $(inputMezo).val())); //Ez már nem jó és meg kell változtatni
         tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
     });
 }
