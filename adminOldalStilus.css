@@ -27,7 +27,13 @@
   width: 64px;
 }
 
-#autok > table > thead > tr > th > input {
+#autok > table > thead > tr > th > div {
+  display: grid;
+  grid-template-columns: 48px auto;
+  gap: 4px;
+}
+
+#autok > table > thead > tr > th input {
   width: 100%;
 }
 

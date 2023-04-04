@@ -1,6 +1,6 @@
 import { KULCS_NEVEK, ADAT_FORMATUM_MEGKOTESEK, OBJEKTUM_LISTA } from "./adat.js";
 import { objektumosRendezes } from "./rendezes.js";
-import { szuresSzovegesErtekSzerint, szuresSzamErtekSzerint } from "./szures.js";
+import { szures } from "./szures.js";
 import { ujTagekKozeIr, kepetIr, ujParatlanTagetIr } from "./qualityOfLifeMetodusok.js";
 
 let autokTablaBody;
@@ -21,6 +21,13 @@ const KULCSOK_LISTA = (() =>
     }
     return LISTA;
 })();
+const RELACIOS_JELEK = {
+    egyenlo: "=",
+    kisebb: "<",
+    nagyobb: ">",
+    kisebbEgyenlo: "<=",
+    nagyobbEgyenlo: ">="
+}
 
 $(() =>
 {
@@ -64,22 +71,29 @@ $(() =>
             {
                 let txt = "";
                 txt += ujTagekKozeIr("a", "href='#' class='text-light text-decoration-none'", KULCS_NEVEK[kulcs]);
-                txt += ujParatlanTagetIr("input", `
-                    id="${"i" + kulcs.charAt(0).toUpperCase() + kulcs.slice(1)}"
-                    type="${(() =>
+                switch (typeof(OBJEKTUM_LISTA[0][KULCSOK_LISTA[index]]))
+                {
+                    case "number":
+                        txt += ujTagekKozeIr("div", null, (() =>
                         {
-                            switch (typeof(OBJEKTUM_LISTA[0][KULCSOK_LISTA[index]]))
+                            let txt = "";
+                            txt += ujTagekKozeIr("select", null, (() =>
                             {
-                                case "number":
-                                    return "number";
-                                default:
-                                    return "text";
-                            }
-                        })()
-                    }"
-                    placeholder="${KULCS_NEVEK[kulcs]}"
-                    name="${KULCS_NEVEK[kulcs]}"
-                `);
+                                let txt = "";
+                                for (const KULCS in RELACIOS_JELEK)
+                                {
+                                    txt += ujTagekKozeIr("option", `value="${KULCS}"`, RELACIOS_JELEK[KULCS]);
+                                }
+                                return txt;
+                            })());
+                            txt += ujInputMezotIr(kulcs, "number");
+                            return txt;
+                        })())
+                        break;
+                    default:
+                        txt += ujInputMezotIr(kulcs, "text");
+                        break;
+                }
                 return txt;
             })());
         });
@@ -88,16 +102,43 @@ $(() =>
 
     //Szűrési lehetőség inicializálása
 
-    const AUTOK_TABLA_INPUT_MEZOK = $("#autok > table > thead > tr > th > input").toArray();
+    const AUTOK_TABLA_INPUT_MEZOK = $("#autok > table > thead > tr > th input").toArray();
     AUTOK_TABLA_INPUT_MEZOK.forEach(inputMezo =>
     {
-        switch ($(inputMezo).attr("type"))
+        const INPUT_MEZO_TIPUS = $(inputMezo).attr("type");
+        switch (INPUT_MEZO_TIPUS)
         {
             case "text":
-                szuresSzovegekreInit(inputMezo);
+                szuresInit(inputMezo, kulcs => objektum => objektum[kulcs].includes($(inputMezo).val()));
                 break;
             case "number":
-                szuresSzamOsszehasonlitasraInit(inputMezo);
+                szuresInit(inputMezo, kulcs =>
+                {
+                    const MEZO_ERTEK = $(inputMezo).val();
+                    if (MEZO_ERTEK.length > 0)
+                    {
+                        switch ($(inputMezo).siblings("select").first().val())
+                        {
+                            case "kisebb":
+                                return objektum => objektum[kulcs] < MEZO_ERTEK;
+                            case "nagyobb":
+                                return objektum => objektum[kulcs] > MEZO_ERTEK;
+                            case "kisebbEgyenlo":
+                                return objektum => objektum[kulcs] <= MEZO_ERTEK;
+                            case "nagyobbEgyenlo":
+                                return objektum => objektum[kulcs] >= MEZO_ERTEK;
+                            default:
+                                return objektum => objektum[kulcs] == MEZO_ERTEK; //Ide "==" összehasonlítás kell "===" helyett mert egy "number" típusú input field is "string"-gel tér vissza és túl lusta vagyok átkonvertálni számra
+                        }
+                    }
+                    else
+                    {
+                        return objektum => true; //Ha a mező üres, akkor mindent írjunk ki
+                    }
+                });
+                break;
+            default:
+                console.log(`Hiba! Ilyen input típusra nincs szűrési lehetőség (${INPUT_MEZO_TIPUS}).`);
                 break;
         }
     });
@@ -177,20 +218,22 @@ function tablazatotKiir(szuloElem, lista)
     });
 }
 
-function szuresSzovegekreInit(inputMezo)
+function ujInputMezotIr(kulcs, tipus)
 {
-    $(inputMezo).on("keyup", () =>
-    {
-        valtoztathatoObjektumLista = szuresSzovegesErtekSzerint(OBJEKTUM_LISTA, $(inputMezo).attr("id").slice(1).toLowerCase(), $(inputMezo).val());
-        tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
-    });
+    return ujParatlanTagetIr("input", `
+        id="${"i" + kulcs.charAt(0).toUpperCase() + kulcs.slice(1)}"
+        type="${tipus}"
+        placeholder="${KULCS_NEVEK[kulcs]}"
+        name="${KULCS_NEVEK[kulcs]}"
+    `);
 }
 
-function szuresSzamOsszehasonlitasraInit(inputMezo)
+function szuresInit(inputMezo, feltetel)
 {
-    $(inputMezo).on("change", () =>
+    const KULCS = $(inputMezo).attr("id").slice(1).toLowerCase();
+    $(inputMezo).on("input", () =>
     {
-        valtoztathatoObjektumLista = szuresSzamErtekSzerint(OBJEKTUM_LISTA, objektum => eval(objektum[$(inputMezo).attr("id").slice(1).toLowerCase()] + $(inputMezo).val())); //Ez már nem jó és meg kell változtatni
+        valtoztathatoObjektumLista = szures(OBJEKTUM_LISTA, feltetel(KULCS));
         tablazatotKiir(autokTablaBody, valtoztathatoObjektumLista);
     });
 }
