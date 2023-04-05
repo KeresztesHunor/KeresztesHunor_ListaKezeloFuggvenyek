@@ -1,4 +1,4 @@
-import { KULCS_NEVEK, ADAT_FORMATUM_MEGKOTESEK, OBJEKTUM_LISTA } from "./adat.js";
+import { KULCS_NEVEK, ADAT_FORMATUM_MEGKOTESEK, PLACEHOLDEREK, OBJEKTUM_LISTA } from "./adat.js";
 import { objektumosRendezes } from "./rendezes.js";
 import { szures } from "./szures.js";
 import { ujTagekKozeIr, kepetIr, ujParatlanTagetIr } from "./qualityOfLifeMetodusok.js";
@@ -33,10 +33,34 @@ $(() =>
 {
     //Új autó felvitele form lenyitásának inicializálása
 
-    const UJ_AUTO_FELVITELE_LENYITO = $("#ujAutoFelviteleLenyito")[0];
-    const UJ_AUTO_FELVITELE_FORM = $("#ujAutoFelvitele")[0];
+    const UJ_AUTO_FELVITELE_FORM = $("#ujAutoFelvitele");
+    const UJ_AUTO_FELVITELE_LENYITO = $("#ujAutoFelviteleLenyito");
+    $(UJ_AUTO_FELVITELE_FORM).prepend((() =>
+    {
+        let txt = "";
+        KULCSOK_LISTA.forEach(kulcs =>
+        {
+            txt += ujTagekKozeIr("div", "class='form-group'", (() =>
+            {
+                let txt = "";
+                txt += ujTagekKozeIr("label", `for="${kulcs}"`, KULCS_NEVEK[kulcs]);
+                txt += ujInputMezotIr(kulcs, (() =>
+                {
+                    switch (typeof(OBJEKTUM_LISTA[0][kulcs]))
+                    {
+                        case "number":
+                            return "number";
+                        default:
+                            return "text";
+                    }
+                })(), kulcs, PLACEHOLDEREK[kulcs], "class='form-control' required");
+                return txt;
+            })());
+        });
+        return txt;
+    })());
     $(UJ_AUTO_FELVITELE_LENYITO).html("&#9660;");
-    $(UJ_AUTO_FELVITELE_FORM).css("display", "none")
+    $(UJ_AUTO_FELVITELE_FORM).css("display", "none");
     $(UJ_AUTO_FELVITELE_LENYITO).on("click", event =>
     {
         event.preventDefault();
@@ -71,7 +95,8 @@ $(() =>
             {
                 let txt = "";
                 txt += ujTagekKozeIr("a", "href='#' class='text-light text-decoration-none'", KULCS_NEVEK[kulcs]);
-                switch (typeof (OBJEKTUM_LISTA[0][KULCSOK_LISTA[index]]))
+                const ID = "i" + kulcs.charAt(0).toUpperCase() + kulcs.slice(1);
+                switch (typeof(OBJEKTUM_LISTA[0][KULCSOK_LISTA[index]]))
                 {
                     case "number":
                         txt += ujTagekKozeIr("div", null, (() =>
@@ -86,12 +111,12 @@ $(() =>
                                 }
                                 return txt;
                             })());
-                            txt += ujInputMezotIr(kulcs, "number");
+                            txt += ujInputMezotIr(kulcs, "number", ID, kulcs);
                             return txt;
                         })())
                         break;
                     default:
-                        txt += ujInputMezotIr(kulcs, "text");
+                        txt += ujInputMezotIr(kulcs, "text", ID, kulcs);
                         break;
                 }
                 return txt;
@@ -114,7 +139,7 @@ $(() =>
                 switch (INPUT_MEZO_TIPUS)
                 {
                     case "text":
-                        return objektumErtek => objektumErtek.includes($(inputMezo).val());
+                        return objektumErtek => objektumErtek.toLowerCase().includes($(inputMezo).val().toLowerCase());
                     case "number":
                         return objektumErtek =>
                         {
@@ -241,14 +266,14 @@ function tablazatotKiir(szuloElem, lista)
     });
 }
 
-function ujInputMezotIr(kulcs, tipus)
+function ujInputMezotIr(kulcs, tipus, id, placeholder, tovabbiParameterek = null)
 {
-    const NAME_ES_PLACEHOLDER = KULCS_NEVEK[kulcs].toLowerCase();
     return ujParatlanTagetIr("input", `
-        id="${"i" + kulcs.charAt(0).toUpperCase() + kulcs.slice(1)}"
+        id="${id}"
         type="${tipus}"
-        placeholder="${NAME_ES_PLACEHOLDER}"
-        name="${NAME_ES_PLACEHOLDER}"
+        placeholder="${placeholder}"
+        name="${KULCS_NEVEK[kulcs].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}"
+        ${tovabbiParameterek ?? ""}
     `);
 }
 
