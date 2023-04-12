@@ -111,12 +111,12 @@ $(() =>
                                 }
                                 return txt;
                             })());
-                            txt += ujInputMezotIr(kulcs, "number", ID, kulcs);
+                            txt += ujInputMezotIr(kulcs, "number", ID, KULCS_NEVEK[kulcs].toLowerCase());
                             return txt;
                         })())
                         break;
                     default:
-                        txt += ujInputMezotIr(kulcs, "text", ID, kulcs);
+                        txt += ujInputMezotIr(kulcs, "text", ID, KULCS_NEVEK[kulcs].toLowerCase());
                         break;
                 }
                 return txt;
@@ -133,7 +133,7 @@ $(() =>
         const OBJEKTUM = {};
         AUTOK_TABLA_INPUT_MEZOK.forEach(inputMezo =>
         {
-            OBJEKTUM[$(inputMezo).attr("id").slice(1).toLowerCase()] = (() =>
+            OBJEKTUM[$(inputMezo).attr("name")] = (() =>
             {
                 const INPUT_MEZO_TIPUS = $(inputMezo).attr("type");
                 switch (INPUT_MEZO_TIPUS)
@@ -203,7 +203,7 @@ $(() =>
             const OBJEKTUM = {};
             INPUT_MEZOK.forEach(inputMezo =>
             {
-                OBJEKTUM[$(inputMezo).attr("id")] = $(inputMezo).val();
+                OBJEKTUM[$(inputMezo).attr("name")] = $(inputMezo).val();
             });
             OBJEKTUM_LISTA.push(OBJEKTUM);
             tablazatotKiir(autokTablaBody, OBJEKTUM_LISTA);
@@ -248,7 +248,7 @@ function tablazatotKiir(szuloElem, lista)
                 {
                     txt += ujTagekKozeIr("td", null, objektum[kulcs]);
                 });
-                txt += ujTagekKozeIr("td", "class='text-center'", ujTagekKozeIr("a", "href='#' class='fw-bold fs-3 text-danger text-decoration-none'", "&times;"));
+                txt += ujTagekKozeIr("td", "class='text-center'", ujTagekKozeIr("a", "href='#' class='fs-5 text-decoration-none'", "&#10060;"));
                 return txt;
             })());
         });
@@ -272,7 +272,7 @@ function ujInputMezotIr(kulcs, tipus, id, placeholder, tovabbiParameterek = null
         id="${id}"
         type="${tipus}"
         placeholder="${placeholder}"
-        name="${KULCS_NEVEK[kulcs].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")}"
+        name="${kulcs}"
         ${tovabbiParameterek ?? ""}
     `);
 }
@@ -281,10 +281,10 @@ function helyesAdatok(inputMezok)
 {
     for (let i = 0; i < inputMezok.length; i++)
     {
-        const ID = $(inputMezok[i]).attr("id");
-        if (ADAT_FORMATUM_MEGKOTESEK.hasOwnProperty(ID) && !ADAT_FORMATUM_MEGKOTESEK[ID].test($(inputMezok[i]).val()))
+        const KULCS = $(inputMezok[i]).attr("name");
+        if (ADAT_FORMATUM_MEGKOTESEK.hasOwnProperty(KULCS) && !ADAT_FORMATUM_MEGKOTESEK[KULCS].test($(inputMezok[i]).val()))
         {
-            alert(`Hiba! A megadott ${KULCS_NEVEK[ID].toLowerCase()} nem követi a megszabott formátumot.`);
+            alert(`Hiba! A megadott ${KULCS_NEVEK[KULCS]} nem követi a megszabott formátumot.`);
             return false;
         }
     }

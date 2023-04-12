@@ -10,14 +10,14 @@ export const ADAT_FORMATUM_MEGKOTESEK = {
     nev: /^[a-zA-Z0-9-]+$/,
     evjarat: /^\d{4}$/,
     loero: /^[1-9]\d*$/
-}
+};
 
 export const PLACEHOLDEREK = {
     gyarto: "Csak kis és nagy betűk",
     nev: "Csak kis és nagy betűk, számok és \"-\"",
     evjarat: "Csak 4 jegyű szám",
     loero: "0-nál nagyobb szám"
-}
+};
 
 export const OBJEKTUM_LISTA = [
     {
