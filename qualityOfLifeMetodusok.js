@@ -5,7 +5,7 @@ export function ujTagekKozeIr(tag, parameterek = null, tartalom = "")
 
 export function kepetIr(url, alt, parameterek = null)
 {
-    return ujParatlanTagetIr("img", `${parameterek ? parameterek + " " : null}src="${url}" alt="${alt}"`);
+    return ujParatlanTagetIr("img", `${parameterek ? parameterek + " " : ""}src="${url}" alt="${alt}"`);
 }
 
 export function ujParatlanTagetIr(tag, parameterek = null)
